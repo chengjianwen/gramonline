@@ -310,7 +310,6 @@
       }
 
       function nextLink(node, condition) {
-        console.log(condition);
         for (var i = 0; i < model.linkDataArray.length; i++)
           if (model.linkDataArray[i].from == node.key) {
             if (condition == null 
@@ -350,8 +349,8 @@
       var delay = 1000;
       function execute() {
         if (current != null && current != last) {
-          console.log("正在执行: " + current.text);
           var condition = eval(current.text);
+          console.log("正在执行: " + current.text + "，返回: " + condition);
           setBackground(current, "red");
           updateStack();
           setTimeout(function() {
