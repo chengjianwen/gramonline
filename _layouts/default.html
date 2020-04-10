@@ -346,7 +346,7 @@
         model.setDataProperty(node, "fill", color);
         model.commitTransaction("update locations");
       }
-      var delay = 1000;
+      var delay = document.getElementById('delaySelect').value;
       function execute() {
         if (current != null && current != last) {
           var condition = eval(current.text);

@@ -8,6 +8,7 @@ layout: default
     {% include load.html display="none"%}
     {% include zoomin.html display="block"%}
     {% include zoomout.html display="block"%}
+    {% include delay.html display="block"%}
     {% include run.html display="block"%}
   </div>
   <div style="width: 100%; display: flex; justify-content: space-between">
