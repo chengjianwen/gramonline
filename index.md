@@ -40,6 +40,8 @@ x = peek()
 
 x = peek()
 
+下面的例子是一个循环结构的例子，它先将循环次数入栈，然后看它是否大于0，大于0则将循环次数出栈，然后对其减一，再将其入栈，再跳转到是否大于0的函数部分继续执行。当条件不再成立时，它跳转到“终止”，终止程序的运行。
+
 <div id="sample">
   <div style="width: 100%; display: flex; justify-content: center; align-items: center;">
     {% include save.html display="none"%}
