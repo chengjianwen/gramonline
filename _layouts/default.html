@@ -345,7 +345,8 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
       var delay = document.getElementById('delaySelect').value;
       function execute(current) {
         if (current != null) {
-          setBackground(current, "red");
+          if (delay > 0)
+            setBackground(current, "red");
           var links = [];
           if (current.category == "Function") {
             var condition = eval(current.text);
@@ -362,11 +363,14 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
             links = nextLinks(current);
           }
           updateStack();
-          setTimeout(function() {
-            setBackground(current, null);
-            if (links.length > 0)
-              execute(getNode(links[0].to));
-          }, delay);
+          if (delay > 0)
+            setTimeout(function() {
+              setBackground(current, null);
+              if (links.length > 0)
+                execute(getNode(links[0].to));
+            }, delay);
+          } else if (links.length > 0)
+            execute(getNode(links[0].to));
         }
       }
       execute(firstNode());
