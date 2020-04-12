@@ -6,7 +6,7 @@
 {"key":-2, "category":"End", "loc":"14.20599999999979 312.76900000000006", "text":"终止", "fill":null},
 {"category":"Procedure", "text":"n = 100", "key":-3, "loc":"266.37108427447936 11.6451243041992", "fill":null},
 {"category":"Procedure", "text":"sum = 0\ni = 0", "key":-4, "loc":"266.3923 97.9907", "fill":null},
-{"category":"Function", "text":"i &lt; n", "key":-5, "loc":"266.8564 197.23940000000005", "fill":null},
+{"category":"Function", "text":"i < n", "key":-5, "loc":"266.8564 197.23940000000005", "fill":null},
 {"category":"Procedure", "text":"sum += Math.sqrt(n*n-i*i)\ni = i + 1", "key":-6, "loc":"266.07179999999994 329.4547999999999", "fill":null},
 {"category":"Procedure", "text":"pi = 4 * sum/n/n\nalert(pi)", "key":-7, "loc":"14.64100000000002 197.74500625000007"}
  ],

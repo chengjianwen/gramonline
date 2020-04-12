@@ -348,7 +348,7 @@
 
     function load(name) {
       var xmlHttp = new XMLHttpRequest();
-      xmlHttp.open( "GET", "models/" + name + ".txt", false ); // false for synchronous request
+      xmlHttp.open( "GET", "models/" + name + ".json", false ); // false for synchronous request
       xmlHttp.send( null );
       myDiagram.model = go.Model.fromJson(xmlHttp.responseText);
     }

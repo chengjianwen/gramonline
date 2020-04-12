@@ -5,7 +5,7 @@
 {"key":-1, "category":"Start", "loc":"265.78459999999995 -66.1384", "text":"开始", "fill":null},
 {"key":-2, "category":"End", "loc":"133.2059999999998 112.76900000000006", "text":"终止", "fill":null},
 {"category":"Procedure", "text":"n = 10", "key":-3, "loc":"266.37108427447936 11.6451243041992", "fill":null},
-{"category":"Function", "text":"n &gt; 0", "key":-5, "loc":"266.8564 115.23940000000005", "fill":null},
+{"category":"Function", "text":"n > 0", "key":-5, "loc":"266.8564 115.23940000000005", "fill":null},
 {"category":"Procedure", "text":"n = n - 1", "key":-6, "loc":"268.07179999999994 229.45479999999992", "fill":null}
  ],
   "linkDataArray": [ 
