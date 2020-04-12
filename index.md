@@ -16,7 +16,9 @@ layout: default
 
 程序支持[JavaScript](https://www.w3schools.com/js/)。
 
-下面的例子是一个循环结构的例子，它先将循环次数入栈，然后看它是否大于0，大于0则将循环次数出栈，然后对其减一，再将其入栈，再跳转到是否大于0的函数部分继续执行。当条件不再成立时，它跳转到“终止”，终止程序的运行。
+例子loop是一个循环结构的例子，它先将循环次数入栈，然后看它是否大于0，大于0则将循环次数出栈，然后对其减一，再将其入栈，再跳转到是否大于0的函数部分继续执行。当条件不再成立时，它跳转到“终止”，终止程序的运行。
+
+例子pi是一个计算pi值的例子，它采用的是[计算π的方法](https://blog.csdn.net/birdreamer/article/details/79546860)中划分网格计算π的方法进行实现。n的值设置的越大，最后的计算结果越准确。同时你应该减小delay的值，否则需要等待很长的时间。
 
 <div>
   <div style="width: 100%; display: flex; justify-content: center; align-items: center;">
