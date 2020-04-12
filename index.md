@@ -2,31 +2,37 @@
 layout: default
 ---
 
-# 一个简单的绘图编程例子
+# 流程图编程
 
-这是一个演示如何通过“绘图”进行编程的例子，你可以通过“开始”、“过程”、“函数”等元件，并在其中填写你需要的语句，来搭建你的程序，并通过带箭头的线将它们连接起来，表示它们执行的顺序。
+这是一个如何通过“绘制流程图”进行编程的例子，你可以通过创建自己的过程和函数，并将连接起来而形成一个程序，并让它执行。缺省的执行模式为“断步”模式，也就是执行完每个过程和函数，它都会暂停一下，以便让你观察它的运行过程。
 
-## 过程
+## 过程块
 
-过程由一个方框表示，它不会返回任何值。一个过程执行结束以后，执行指定（通过一个带箭头的线）的下一个过程（或者会函数）。
+通过<img src="/img/rectangle.png" height=1em>来创建一个过程块。一个过程块执行结束以后，会根据它的线条指向执行下一个过程/函数块。
 
-## 函数
+## 函数块
 
-函数由一个菱形表示，它会返回一个值。一个函数执行结束以后，会根据返回值执行符合条件的下一个过程（或者函数）。所以一个函数可以有多条指向不同目标的线，这些线条需要标注一个值，以便同该函数的返回值进行条件判断。
+通过<img src="/img/diamond.png" height=1em>来创建一个函数块。一个函数块执行结束以后，会根据它的返回值和各个下一步指向的线条值进行判断，从而执行符合条件的下一个过程/函数块。
 
-程序支持[JavaScript](https://www.w3schools.com/js/)。
+## 线条
 
-例子loop是一个循环结构的例子，它先将循环次数入栈，然后看它是否大于0，大于0则将循环次数出栈，然后对其减一，再将其入栈，再跳转到是否大于0的函数部分继续执行。当条件不再成立时，它跳转到“终止”，终止程序的运行。
+线条是一根有方向箭头的线，通过它将各个过程和函数块连接起来，指示程序/函数块执行的顺序。
 
-例子pi是一个计算pi值的例子，它采用的是[计算π的方法](https://blog.csdn.net/birdreamer/article/details/79546860)中划分网格计算π的方法进行实现。n的值设置的越大，最后的计算结果越准确。同时你应该减小delay的值，否则需要等待很长的时间。
+## 语言
+
+程序目前支持[JavaScript语言](https://www.w3schools.com/js/)。
+
+## 运行
+
+点击“运行”按钮可以运行你的程序。缺省情况下程序会按照设置的间隔时间断步执行每个程序/函数块，以便让你看到程序执行的过程是否正确。
 
 <div>
   <div style="width: 100%; display: flex; justify-content: center; align-items: center;">
-    {% include samples.html display="block"%}
+    samples: {% include samples.html display="block"%}
     {% include save.html display="block"%}
     {% include zoomin.html display="block"%}
     {% include zoomout.html display="block"%}
-    {% include delay.html display="block"%}
+    delay: {% include delay.html display="block"%}
     {% include run.html display="block"%}
   </div>
   <div style="width: 100%; display: flex; justify-content: space-between">
