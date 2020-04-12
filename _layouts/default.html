@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -96,7 +96,7 @@
           $$(go.Panel, "Auto",
             $$(go.Shape, "Rectangle",
               { fill: "#282c34", stroke: "#00A9C9", strokeWidth: 3.5 },
-              new go.Binding("fill", "fill")),
+              new go.Binding("fill")),
             $$(go.TextBlock, textStyle(),
               {
                 margin: 8,
@@ -113,13 +113,13 @@
           makePort("B", go.Spot.Bottom, go.Spot.BottomSide, true, false)
         ));
 
-      myDiagram.nodeTemplateMap.add("Conditional",
+      myDiagram.nodeTemplateMap.add("Function",
         $$(go.Node, "Table", nodeStyle(),
           // the main object is a Panel that surrounds a TextBlock with a rectangular Shape
           $$(go.Panel, "Auto",
             $$(go.Shape, "Diamond",
               { fill: "#282c34", stroke: "#00A9C9", strokeWidth: 3.5 },
-              new go.Binding("fill", "fill")),
+              new go.Binding("fill")),
             $$(go.TextBlock, textStyle(),
               {
                 margin: 8,
@@ -140,7 +140,8 @@
         $$(go.Node, "Table", nodeStyle(),
           $$(go.Panel, "Spot",
             $$(go.Shape, "Circle",
-              { desiredSize: new go.Size(40, 40), fill: "#282c34", stroke: "#09d3ac", strokeWidth: 3.5 }),
+              { desiredSize: new go.Size(40, 40), fill: "#282c34", stroke: "#09d3ac", strokeWidth: 3.5 },
+              new go.Binding("fill")),
             $$(go.TextBlock, "Start", textStyle(),
               new go.Binding("text"))
           ),
@@ -154,7 +155,8 @@
         $$(go.Node, "Table", nodeStyle(),
           $$(go.Panel, "Spot",
             $$(go.Shape, "Circle",
-              { desiredSize: new go.Size(35, 35), fill: "#282c34", stroke: "#DC3C00", strokeWidth: 3.5 }),
+              { desiredSize: new go.Size(35, 35), fill: "#282c34", stroke: "#DC3C00", strokeWidth: 3.5 },
+              new go.Binding("fill")),
             $$(go.TextBlock, "End", textStyle(),
               new go.Binding("text"))
           ),
@@ -243,7 +245,7 @@
       // This listener is called by the "LinkDrawn" and "LinkRelinked" DiagramEvents.
       function showLinkLabel(e) {
         var label = e.subject.findObject("LABEL");
-        if (label !== null) label.visible = (e.subject.fromNode.data.category === "Conditional");
+        if (label !== null) label.visible = (e.subject.fromNode.data.category === "Function");
       }
 
       // temporary links used by LinkingTool and RelinkingTool are also orthogonal:
@@ -263,8 +265,8 @@
             nodeTemplateMap: myDiagram.nodeTemplateMap,  // share the templates used by myDiagram
             model: new go.GraphLinksModel([  // specify the contents of the Palette
               { category: "Start", text: "开始" },
-              { text: "过程" },
-              { category: "Conditional", text: "函数" },
+              { category: "Procedure", text: "过程" },
+              { category: "Function", text: "函数" },
               { category: "End", text: "终止" },
               { category: "Comment", text: "注释" }
             ])
@@ -283,6 +285,12 @@
         animation.start();
       }
     } // end init
+    // Check for the various File API support.
+if (window.File && window.FileReader && window.FileList && window.Blob) {
+  // Great success! All the File APIs are supported.
+} else {
+  alert('The File APIs are not fully supported in this browser.');
+}
 
     function run() {
       var arr = [];
@@ -295,6 +303,12 @@
       function peek() {
         return arr[arr.length - 1];
       }
+      function dec() {
+        arr[arr.length - 1] -= 1;
+      }
+      function inc() {
+        arr[arr.length - 1] += 1;
+      }
       var model = myDiagram.model;
       function firstNode() {
         for (var i = 0; i < model.nodeDataArray.length; i++)
@@ -302,27 +316,11 @@
             return model.nodeDataArray[i];
         return null;
       }
-      function lastNode() {
-        for (var i = 0; i < model.nodeDataArray.length; i++)
-          if (model.nodeDataArray[i].category == "End")
-            return model.nodeDataArray[i];
-        return null;
+
+      function nextLinks(node) {
+        return model.linkDataArray.filter( link => link.from == node.key);
       }
 
-      function nextLink(node, condition) {
-        for (var i = 0; i < model.linkDataArray.length; i++)
-          if (model.linkDataArray[i].from == node.key) {
-            if (condition == null 
-            || condition == undefined)
-              return model.linkDataArray[i];
-            else if (typeof condition == "string"
-            && condition == model.linkDataArray[i].text)
-              return model.linkDataArray[i];
-            else if (condition == eval(model.linkDataArray[i].text))
-              return model.linkDataArray[i];
-          }
-        return null;
-      }
       function getNode(key) {
         for (var i = 0; i < model.nodeDataArray.length; i++)
           if (model.nodeDataArray[i].key == key)
@@ -330,9 +328,6 @@
         return null;
       }
 
-      var first = firstNode();
-      var last = lastNode();
-      var current = getNode(nextLink(first).to);
       var $viewer = $(".stack-viewer")[0];
       function updateStack() {
         while($viewer.firstChild)
@@ -346,25 +341,35 @@
         model.setDataProperty(node, "fill", color);
         model.commitTransaction("update locations");
       }
+
       var delay = document.getElementById('delaySelect').value;
-      function execute() {
-        if (current != null && current != last) {
-          var condition = eval(current.text);
-          console.log("正在执行: " + current.text + "，返回: " + condition);
+      function execute(current) {
+        if (current != null) {
           setBackground(current, "red");
+          var links = [];
+          if (current.category == "Function") {
+            var condition = eval(current.text);
+            links = nextLinks(current).filter(link => {
+              if (typeof condition == "string")
+                return (condition == link.text);
+              else
+               return (condition == eval(link.text));
+            });
+          } else if (current.category == "Procedure") {
+            eval(current.text);
+            links = nextLinks(current);
+          } else if (current.category == "Start") {
+            links = nextLinks(current);
+          }
           updateStack();
           setTimeout(function() {
             setBackground(current, null);
-            var link;
-            if (current.category != "Conditional")
-              condition = null;
-            link = nextLink(current, condition);
-            current = link? getNode(link.to) : null;
-            execute();
+            if (links.length > 0)
+              execute(getNode(links[0].to));
           }, delay);
         }
       }
-      execute();
+      execute(firstNode());
     }
 
     function save() {
@@ -383,6 +388,6 @@
   </script>
 </head>
 <body onload="init()">
-  {{ content }}
+  {{ content  }}
 </body>
 </html>
