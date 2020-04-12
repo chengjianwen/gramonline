@@ -8,7 +8,6 @@
   <script src="javascripts/jquery-2.1.4.js"></script>
   <script src="javascripts/scale.fix.js"></script>
   <script src="javascripts/go.js"></script>
-  <script src="javascripts/models.js"></script>
   <script id="code">
     function init() {
       var $$ = go.GraphObject.make;  // for conciseness in defining templates
@@ -287,11 +286,6 @@
       }
     } // end init
     // Check for the various File API support.
-if (window.File && window.FileReader && window.FileList && window.Blob) {
-  // Great success! All the File APIs are supported.
-} else {
-  alert('The File APIs are not fully supported in this browser.');
-}
 
     function run() {
       var model = myDiagram.model;
@@ -353,12 +347,10 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
     }
 
     function load(name) {
-      models.forEach(Function(model){
-        if (model.name == "name") {
-          myDiagram.model = model.value;
-          return;
-        }
-      }
+      myDiagram.model = go.Model.fromJson(document.getElementById(name).value);
+    }
+    function save(name) {
+      document.getElementById(name).value = myDiagram.model.toJson();
     }
 
     function zoomIn() {

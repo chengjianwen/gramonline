@@ -30,4 +30,7 @@ layout: default
     {% include palette.html %}
     {% include diagram.html %}
   </div>
+  {% include loop.html %}
+  {% include pi.html %}
+  
 </div>
