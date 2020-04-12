@@ -317,8 +317,7 @@
       function execute(current) {
         if (current != null) {
           if (delay > 0)
-          setTimeout(function() { () => {
-            setBackground(current, "red")}, 0);
+          setBackground(current, "red");
           var links = [];
           if (current.category == "Function") {
             var condition = eval(current.text);
@@ -336,8 +335,7 @@
           }
           if (delay > 0)
             setTimeout(function() {
-              setTimeout(function() { () => {
-                setBackground(current, null)}, 0);
+              setBackground(current, null);
               if (links.length > 0)
                 execute(getNode(links[0].to));
             }, delay);
