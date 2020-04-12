@@ -8,6 +8,7 @@
   <script src="javascripts/jquery-2.1.4.js"></script>
   <script src="javascripts/scale.fix.js"></script>
   <script src="javascripts/go.js"></script>
+  <script src="javascripts/models.js"></script>
   <script id="code">
     function init() {
       var $$ = go.GraphObject.make;  // for conciseness in defining templates
@@ -252,7 +253,7 @@
       myDiagram.toolManager.linkingTool.temporaryLink.routing = go.Link.Orthogonal;
       myDiagram.toolManager.relinkingTool.temporaryLink.routing = go.Link.Orthogonal;
 
-      load();  // load an initial diagram from some JSON text
+      load("loop");  // load an initial diagram from some JSON text
 
       // initialize the Palette that is on the left side of the page
       myPalette =
@@ -293,22 +294,6 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 }
 
     function run() {
-      var arr = [];
-      function push(v) {
-        arr.push(v);
-      }
-      function pop() {
-        return arr.pop();
-      }
-      function peek() {
-        return arr[arr.length - 1];
-      }
-      function dec() {
-        arr[arr.length - 1] -= 1;
-      }
-      function inc() {
-        arr[arr.length - 1] += 1;
-      }
       var model = myDiagram.model;
       function firstNode() {
         for (var i = 0; i < model.nodeDataArray.length; i++)
@@ -328,14 +313,6 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
         return null;
       }
 
-      var $viewer = $(".stack-viewer")[0];
-      function updateStack() {
-        while($viewer.firstChild)
-          $viewer.removeChild($viewer.lastChild);
-        arr.forEach(function (item) {
-          $("<div></div>").addClass("item").css("align-self", "center").text(item).appendTo($viewer);
-        });
-      }
       function setBackground(node, color) {
         model.startTransaction("update locations");
         model.setDataProperty(node, "fill", color);
@@ -362,7 +339,6 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
           } else if (current.category == "Start") {
             links = nextLinks(current);
           }
-          updateStack();
           if (delay > 0)
             setTimeout(function() {
               setBackground(current, null);
@@ -376,13 +352,15 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
       execute(firstNode());
     }
 
-    function save() {
-      document.getElementById("mySavedModel").value = myDiagram.model.toJson();
-      myDiagram.isModified = false;
+    function load(name) {
+      models.forEach(Function(model){
+        if (model.name == "name") {
+          myDiagram.model = model.value;
+          return;
+        }
+      }
     }
-    function load() {
-      myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
-    }
+
     function zoomIn() {
       myDiagram.scale *= 1.1;
     }
