@@ -23,6 +23,7 @@ layout: default
 <div>
   <div style="width: 100%; display: flex; justify-content: center; align-items: center;">
     {% include samples.html display="block"%}
+    {% include save.html display="block"%}
     {% include zoomin.html display="block"%}
     {% include zoomout.html display="block"%}
     {% include delay.html display="block"%}
@@ -32,7 +33,4 @@ layout: default
     {% include palette.html %}
     {% include diagram.html %}
   </div>
-  {% include loop.html %}
-  {% include pi.html %}
-  
 </div>

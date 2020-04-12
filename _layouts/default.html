@@ -347,7 +347,10 @@
     }
 
     function load(name) {
-      myDiagram.model = go.Model.fromJson(document.getElementById(name).value);
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.open( "GET", "models/" + name + ".json", false ); // false for synchronous request
+      xmlHttp.send( null );
+      myDiagram.model = go.Model.fromJson(xmlHttp.responseText);
     }
     function save(name) {
       document.getElementById(name).value = myDiagram.model.toJson();
